@@ -1,0 +1,35 @@
+name: 'GT deploy action'
+description: 'This Action will deploy a GT service built on dockerhub to ecs cluster'
+author: Gutenberg Technology
+branding:
+  icon: 'arrow-up-right'  
+  color: 'blue'
+inputs:
+  cluster_name:
+    description: 'ECS cluster name'
+    required: true
+  services:
+    description: 'list of services separated by space. Ex: gateway user dictionary'
+    required: true
+  env:
+    description: 'target env: rct, preprod, prod'
+    required: true
+    default: rct
+  ref:
+    description: 'git reference to deploy: master, v1.2.0, ...'
+    required: true
+    default: master
+runs:
+  using: "composite"
+  steps: 
+    - id: print-available-values
+      run: echo ${{ inputs.cluster_name }} ${{ github.cluster_name }} {{ secrets.AWS_ACCESS_KEY_ID }} ${{ github.action_path }}
+      shell: bash
+    - id: download-gtd
+      run: curl https://github.com/Gutenberg-Technology/gtd/releases/download/v0.2.2a/gtd
+      shell: bash
+    - id: try-gtd
+      run: gtd help
+      shell: bash
+    - run: ls ${{ github.action_path }}/${{ inputs.cluster_name }}.yml
+      shell: bash
