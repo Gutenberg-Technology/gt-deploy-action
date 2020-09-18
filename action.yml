@@ -39,10 +39,11 @@ runs:
     - id: download-gtd
       run: curl -L https://github.com/Gutenberg-Technology/gtd/releases/download/v0.2.2a/gtd -o gtd
       shell: bash
-      #working-directory: ${{ inputs.working_folder }}
+      working-directory: ${{ inputs.working_folder }}
+    - run: ls ${{ inputs.working_folder }}/
+      shell: bash
     - id: try-gtd
       run: gtd help
       shell: bash
-      #working-directory: ${{ inputs.working_folder }}
-    - run: ls ${{ inputs.working_folder }}/
-      shell: bash
+      working-directory: ${{ inputs.working_folder }}
+
