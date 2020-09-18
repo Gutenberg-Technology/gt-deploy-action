@@ -32,7 +32,7 @@ runs:
   using: "composite"
   steps: 
     - id: print-available-values
-      run: echo ${{ inputs.cluster_name }} secret:${{ inputs.aws_access_key_id }} ${{ github.action_path }} ${{ inputs.working_folder }} 
+      run: echo ${{ inputs.cluster_name }} secret:${{ inputs.aws_access_key_id }} ${{ github.action_path }} working_folder:${{ inputs.working_folder }} 
       shell: bash
     - id: download-gtd
       run: curl -L https://github.com/Gutenberg-Technology/gtd/releases/download/v0.2.2a/gtd -o gtd
