@@ -19,17 +19,29 @@ inputs:
     description: 'git reference to deploy: master, v1.2.0, ...'
     required: true
     default: master
+  aws_access_key_id:
+    description: 'AWS access key ID'
+    required: true
+  aws_secret_access_key:
+    description: 'AWS secret access key'
+    required: true
+  working_folder:
+    description: 'Where to run gtd'
+    required: true
 runs:
   using: "composite"
   steps: 
     - id: print-available-values
-      run: echo ${{ inputs.cluster_name }} ${{ github.cluster_name }} {{ secrets.AWS_ACCESS_KEY_ID }} ${{ github.action_path }}
+      run: echo ${{ inputs.cluster_name }} secret:{{ secrets.AWS_ACCESS_KEY_ID }} ${{ github.action_path }}
+      shell: bash
+    - id: print-available-values 2
+      run: echo ${{ inputs.working_folder }} ${{ inputs.aws_access_key_id }}
       shell: bash
     - id: download-gtd
-      run: curl https://github.com/Gutenberg-Technology/gtd/releases/download/v0.2.2a/gtd
+      run: curl -L https://github.com/Gutenberg-Technology/gtd/releases/download/v0.2.2a/gtd -o gtd
       shell: bash
     - id: try-gtd
       run: gtd help
       shell: bash
-    - run: ls ${{ github.action_path }}/${{ inputs.cluster_name }}.yml
+    - run: ls ${{ inputs.working_folder }}/
       shell: bash
